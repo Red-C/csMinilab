@@ -23,6 +23,7 @@ typedef struct process {
 	procstate_t p_state;		// Process state; see above
 	int p_exit_status;		// Process's exit status (if it has
 					// exited and p_state == P_ZOMBIE)
+	pid_t wait_pid;
 } process_t;
 
 
@@ -32,7 +33,8 @@ typedef struct process {
 // Functions defined in mpos-kern.c
 void interrupt(registers_t *reg);
 void schedule(void);
-
+pid_t newthread(process_t *cur);
+void kill(pid_t pid);
 // Functions defined in mpos-x86.c
 void segments_init();
 void special_registers_init(process_t *proc);
