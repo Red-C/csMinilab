@@ -189,6 +189,7 @@ interrupt(registers_t *reg)
 		else if (proc_array[p].p_state == P_ZOMBIE) 
 		{
 			proc_array[p].p_state = P_EMPTY;
+			current->p_registers.reg_eax = proc_array[p].p_exit_status;	
 		}
 		else {
 			current->waitPID = proc_array[p].p_pid;
