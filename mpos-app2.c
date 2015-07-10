@@ -56,20 +56,20 @@ void
 run_child(void)
 {
 
-	int input_counter = counter;
 	pid_t pid = sys_getpid();
 	if(pid % 2 == 0) {
+		counter++;	
 		int p;
 		for (p = 3; p < NPROCS; ) {
 			sys_kill(p);
 			p += 2;
 		}
-		counter++;	
 	}
 	else {
 		while(1)
 			sys_yield();
 	}
+	int input_counter = counter;
 
 	app_printf("Process %d lives, counter %d!\n",
 	   sys_getpid(), input_counter);
