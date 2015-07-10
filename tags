@@ -59,8 +59,8 @@ FLAG_ZERO	lib.c	105;"	d	file:
 INT_SYS_EXIT	mpos.h	11;"	d
 INT_SYS_FORK	mpos.h	9;"	d
 INT_SYS_GETPID	mpos.h	8;"	d
-INT_SYS_USER1	mpos.h	17;"	d
-INT_SYS_USER2	mpos.h	18;"	d
+INT_SYS_KILL	mpos.h	18;"	d
+INT_SYS_NEWTHREAD	mpos.h	17;"	d
 INT_SYS_USER3	mpos.h	19;"	d
 INT_SYS_USER4	mpos.h	20;"	d
 INT_SYS_USER5	mpos.h	21;"	d
@@ -69,7 +69,7 @@ INT_SYS_YIELD	mpos.h	10;"	d
 KBDATAP	mpos-x86.c	170;"	d	file:
 KBSTATP	mpos-x86.c	168;"	d	file:
 KBS_DIB	mpos-x86.c	169;"	d	file:
-KERNEL_STACK_TOP	mpos-kern.h	30;"	d
+KERNEL_STACK_TOP	mpos-kern.h	31;"	d
 MAX	types.h	55;"	d
 MIN	types.h	49;"	d
 MPOS_BIN_FILES	GNUmakefile	/^MPOS_BIN_FILES = $(OBJDIR)\/mpos-app $(OBJDIR)\/mpos-app2$/;"	m
@@ -157,6 +157,7 @@ default_int_handler	mpos-int.S	/^default_int_handler:$/;"	l
 diskfd	mkbootdisk.c	/^int diskfd;$/;"	v
 diskwrite	mkbootdisk.c	/^diskwrite(const void *data, size_t amt)$/;"	f
 do_fork	mpos-kern.c	/^do_fork(process_t *parent)$/;"	f	file:
+do_newthread	mpos-kern.c	/^do_newthread(process_t* current)$/;"	f
 e_ehsize	elf.h	/^	uint16_t e_ehsize;$/;"	m	struct:Elf
 e_elf	elf.h	/^	uint8_t e_elf[12];$/;"	m	struct:Elf
 e_entry	elf.h	/^	uint32_t e_entry;$/;"	m	struct:Elf
@@ -349,6 +350,8 @@ sys_int55_handler	mpos-int.S	/^sys_int55_handler:$/;"	l
 sys_int56_handler	mpos-int.S	/^sys_int56_handler:$/;"	l
 sys_int57_handler	mpos-int.S	/^sys_int57_handler:$/;"	l
 sys_int_handlers	mpos-int.S	/^sys_int_handlers:$/;"	l
+sys_kill	mpos-app.h	/^sys_kill(pid_t pid)$/;"	f
+sys_newthread	mpos-app.h	/^sys_newthread(void (*start_function)(void))$/;"	f
 sys_wait	mpos-app.h	/^sys_wait(pid_t pid)$/;"	f
 sys_yield	mpos-app.h	/^sys_yield(void)$/;"	f
 taskstate	x86.h	/^typedef struct taskstate {$/;"	s
@@ -402,5 +405,6 @@ va_arg	lib.h	26;"	d
 va_end	lib.h	28;"	d
 va_list	lib.h	/^typedef char *va_list;$/;"	t
 va_start	lib.h	24;"	d
+waitPID	mpos-kern.h	/^	pid_t waitPID;$/;"	m	struct:process
 waitdisk	mpos-boot.c	/^waitdisk(void)$/;"	f
 write_eflags	x86.h	/^write_eflags(uint32_t eflags)$/;"	f

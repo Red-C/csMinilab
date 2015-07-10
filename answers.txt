@@ -37,6 +37,26 @@ Response to Exercise 4:
 	Set the state of process to empty when process is exited.
 	interrupt(); schedule();
 
+Response to Exercise 7:
+	add a sys_kill(pid_t pid) function with assembly code :
+	asm volatile("int %1\n"
+		     : "=a" (retval) 	   // save exit status
+		     : "i" (INT_SYS_KILL), 
+		       "a" (pid)		   // save pid try to kill
+		     : "cc", "memory");
+
+	I also add a case INT_SYS_KILL in interrupt function,
+	similar as exit, it sets state of process with expect
+	pid to P_ZOMBIE if it is P_RUNNABLE; However, it is
+	possible to kill itself, so I use schedule() at the end.
+
+	in mpos-app2 run_child function, it detect current process'
+	pid, if pid is even, kill the process at front of it.
+	the output is only process 3 alive because the program is
+	forking process in sequence, everytime process 3 is 
+	created. process 2 kills it.
+
+
 
 
 Anything else you'd like us to know:

@@ -62,10 +62,13 @@ run_child(void)
 				   visible to all processes. */
 	pid_t pid = sys_getpid();
 	if(pid % 2 == 0 && pid != 0){
-		sys_yield();
 		sys_kill(pid+1);
 	}
-	
+	else {
+		while(1)
+			sys_yield();
+	}
+
 	app_printf("Process %d lives, counter %d!\n",
 	   sys_getpid(), input_counter);
 	sys_exit(input_counter);
