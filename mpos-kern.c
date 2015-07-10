@@ -125,6 +125,7 @@ start(void)
  *****************************************************************************/
 
 static pid_t do_fork(process_t *parent);
+static pid_t do_newthread(process_t *current);
 
 void
 interrupt(registers_t *reg)
@@ -196,6 +197,11 @@ interrupt(registers_t *reg)
 			current->p_state = P_BLOCKED;
 		}
 		schedule();
+	}
+
+	case INT_SYS_NEWTHREAD:  {
+		current->p_registers.reg_eax = do_newthread(current);
+		run(current);
 	}
 
 	default:
@@ -352,4 +358,19 @@ schedule(void)
 			}
 		}
 	}
+}
+
+pid_t
+do_newthread(process_t* current)
+{
+	int i = 0;
+	for(i = 1; i < NPROCS && proc_array[i].p_state != P_EMPTY; i++)
+		;
+	if(i == NPROCS)
+		return -1;
+	proc_array[i].p_state = P_RUNNABLE;
+	proc_array[i].p_registers.reg_eax = 0;
+	proc_array[i].p_registers.reg_eip = current->p_registers.reg_eax;
+	proc_array[i].p_registers.reg_esp = (uint32_t)PROC1_STACK_ADDR + i * PROC_STACK_SIZE;
+	return proc_array[i].p_pid;
 }

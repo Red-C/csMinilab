@@ -79,6 +79,19 @@ sys_fork(void)
 	return result;
 }
 
+static inline pid_t
+sys_newthread(void (*start_function)(void))
+{
+	// This system call follows the same pattern as sys_getpid().
+
+	pid_t result;
+	asm volatile("int %1\n"
+		     : "=a" (result)
+		     : "i" (INT_SYS_NEWTHREAD),
+			   "a" ((uint32_t)start_function)
+		     : "cc", "memory");
+	return result;
+}
 
 /*****************************************************************************
  * sys_yield
@@ -193,5 +206,6 @@ app_printf(const char *format, ...)
 	cursorpos = console_vprintf(cursorpos, color, format, val);
 	va_end(val);
 }
+
 
 #endif
