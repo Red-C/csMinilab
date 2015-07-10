@@ -57,12 +57,12 @@ run_child(void)
 {
 	int input_counter = counter;
 
-	counter++;		/* Note that all "processes" share an address
-				   space, so this change to 'counter' will be
-				   visible to all processes. */
 	pid_t pid = sys_getpid();
 	if(pid % 2 == 0 && pid != 0){
 		sys_kill(pid+1);
+		counter++;		/* Note that all "processes" share an address
+				   space, so this change to 'counter' will be
+				   visible to all processes. */
 	}
 
 	app_printf("Process %d lives, counter %d!\n",
