@@ -251,7 +251,7 @@ do_fork(process_t *parent)
 		return -1;
 	proc_array[i].p_registers = parent->p_registers;
 	proc_array[i].p_state = P_RUNNABLE;
-	proc_array[i].p_state = P_RUNNABLE;
+	proc_array[i].p_registers.reg_eax = 0;
 	copy_stack(&proc_array[i], parent);
 	return proc_array[i].p_pid;
 
