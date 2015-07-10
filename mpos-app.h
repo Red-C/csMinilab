@@ -176,6 +176,17 @@ sys_wait(pid_t pid)
 }
 
 
+static inline int
+sys_kill(pid_t pid)
+{
+	int retval;
+	asm volatile("int %1\n"
+		     : "=a" (retval)
+		     : "i" (INT_SYS_KILL),
+		       "a" (pid)
+		     : "cc", "memory");
+	return retval;
+}
 
 /*****************************************************************************
  * app_printf(format, ...)

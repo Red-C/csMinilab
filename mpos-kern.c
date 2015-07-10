@@ -126,6 +126,8 @@ start(void)
 
 static pid_t do_fork(process_t *parent);
 static pid_t do_newthread(process_t *current);
+static int
+do_kill(pid_t pid);
 
 void
 interrupt(registers_t *reg)
@@ -204,6 +206,19 @@ interrupt(registers_t *reg)
 		run(current);
 	}
 
+	case INT_SYS_KILL: {
+
+		pid_t pid = current->p_registers.reg_eax;
+		if(pid < NPROCS && proc_array[pid].p_state == P_RUNNABLE)
+		{
+
+			proc_array[pid].p_state = P_ZOMBIE;
+			proc_array[pid].p_exit_status = 0;
+		}
+		schedule();
+	}
+
+							 
 	default:
 		while (1)
 			/* do nothing */;
@@ -373,4 +388,10 @@ do_newthread(process_t* current)
 	proc_array[i].p_registers.reg_eip = current->p_registers.reg_eax;
 	proc_array[i].p_registers.reg_esp = (uint32_t)PROC1_STACK_ADDR + i * PROC_STACK_SIZE;
 	return proc_array[i].p_pid;
+}
+
+
+int
+do_kill(pid_t pid) 
+{
 }
