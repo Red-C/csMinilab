@@ -126,8 +126,6 @@ start(void)
 
 static pid_t do_fork(process_t *parent);
 static pid_t do_newthread(process_t *current);
-static int
-do_kill(pid_t pid);
 
 void
 interrupt(registers_t *reg)
@@ -390,8 +388,3 @@ do_newthread(process_t* current)
 	return proc_array[i].p_pid;
 }
 
-
-int
-do_kill(pid_t pid) 
-{
-}
