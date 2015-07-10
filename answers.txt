@@ -37,8 +37,30 @@ Response to Exercise 4:
 	Set the state of process to empty when process is exited.
 	interrupt(); schedule();
 
+
+
+
+
+Anything else you'd like us to know:
+
+
+
+Extra credit exercises:
+
 Response to Exercise 6:
-	I add a sys_newthread(
+	I add a sys_newthread()
+		asm volatile("int %1\n"
+				 : "=a" (result)   //thread pid
+				 : "i" (INT_SYS_NEWTHREAD), 
+				   "a" ((uint32_t)start_function) // start function
+				 : "cc", "memory");
+	and a do_newthread(). do_newthread() will find an empty 
+	process first, and set its esp to its stack top(means it
+	is empty). The function also set its state as RUNNABLE.
+	Finally, set its eip to start function pointer.
+	mpos-kern.c: interrupt()
+	mpos-kern.c: do_newthread()
+	mpos-app.h: sys_newthread()
 
 Response to Exercise 7:
 	add a sys_kill(pid_t pid) function with assembly code :
@@ -60,11 +82,3 @@ Response to Exercise 7:
 	mpos-kern.h:do_kill()
 	mpos-kern.h:interrupt()
 
-
-
-
-Anything else you'd like us to know:
-
-
-
-Extra credit exercises:
