@@ -163,28 +163,6 @@ sys_wait(pid_t pid)
 }
 
 
-pid_t sys_newthread(void (*start_function)(void))
-{
-	int pid;
-	asm volatile("int %1\n"
-			: "=a" (pid)
-			: "i" (INT_SYS_NEWTHREAD),
-			  "a" (start_function)
-			: "cc", "memory");
-	return pid;
-
-}
-
-void sys_kill(pid_t pid);
-void
-sys_kill(pid_t pid)
-{
-	asm volatile("int %1\n"
-			:
-			: "i" (INT_SYS_KILL),
-			  "a" (pid)
-			: "cc", "memory");
-}
 
 /*****************************************************************************
  * app_printf(format, ...)
@@ -215,7 +193,5 @@ app_printf(const char *format, ...)
 	cursorpos = console_vprintf(cursorpos, color, format, val);
 	va_end(val);
 }
-
-
 
 #endif

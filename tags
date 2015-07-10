@@ -59,7 +59,7 @@ FLAG_ZERO	lib.c	105;"	d	file:
 INT_SYS_EXIT	mpos.h	11;"	d
 INT_SYS_FORK	mpos.h	9;"	d
 INT_SYS_GETPID	mpos.h	8;"	d
-INT_SYS_NEWTHREAD	mpos.h	17;"	d
+INT_SYS_USER1	mpos.h	17;"	d
 INT_SYS_USER2	mpos.h	18;"	d
 INT_SYS_USER3	mpos.h	19;"	d
 INT_SYS_USER4	mpos.h	20;"	d
@@ -223,7 +223,6 @@ memmove	lib.c	/^memmove(void *dst, const void *src, size_t n)$/;"	f
 memset	lib.c	/^memset(void *v, int c, size_t n)$/;"	f
 multiboot	mpos-int.S	/^multiboot:$/;"	l
 multiboot_start	mpos-int.S	/^multiboot_start:$/;"	l
-newthread	mpos-kern.c	/^pid_t newthread(process_t *current) {$/;"	f
 off_t	types.h	/^typedef int32_t off_t;$/;"	t
 offsetof	types.h	77;"	d
 outb	x86.h	/^outb(int port, uint8_t data)$/;"	f
@@ -350,7 +349,6 @@ sys_int55_handler	mpos-int.S	/^sys_int55_handler:$/;"	l
 sys_int56_handler	mpos-int.S	/^sys_int56_handler:$/;"	l
 sys_int57_handler	mpos-int.S	/^sys_int57_handler:$/;"	l
 sys_int_handlers	mpos-int.S	/^sys_int_handlers:$/;"	l
-sys_newthread	mpos-app.h	/^pid_t sys_newthread(void (*start_function)(void))$/;"	f
 sys_wait	mpos-app.h	/^sys_wait(pid_t pid)$/;"	f
 sys_yield	mpos-app.h	/^sys_yield(void)$/;"	f
 taskstate	x86.h	/^typedef struct taskstate {$/;"	s
