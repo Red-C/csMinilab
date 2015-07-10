@@ -9,6 +9,10 @@
  *
  *****************************************************************************/
 
+void run_child2(void);
+
+void
+start2(void);
 void run_child(void);
 
 void
@@ -26,6 +30,7 @@ start(void)
 		run_child();
 	else if (p > 0) {
 		app_printf("Main process %d!\n", sys_getpid());
+		p = sys_newthread(start2);
 		do {
 			status = sys_wait(p);
 			app_printf("W");
@@ -62,4 +67,63 @@ run_child(void)
 		sys_yield();
 
 	sys_exit(1000);
+}
+volatile int counter;
+
+
+void
+start2(void)
+{
+	pid_t p;
+	int status;
+
+	counter = 0;
+
+	while (counter < 5) {
+		int n_started = 0;
+
+		// Start as many processes as possible, until we fail to start
+		// a process or we have started 1025 processes total.
+		while (counter + n_started < 5) {
+			p = sys_fork();
+			if (p == 0)
+				run_child();
+			else if (p > 0)
+				n_started++;
+			else
+				break;
+		}
+
+		// If we could not start any new processes, give up!
+		if (n_started == 0)
+			break;
+
+		// We started at least one process, but then could not start
+		// any more.
+		// That means we ran out of room to start processes.
+		// Retrieve old processes' exit status with sys_wait(),
+		// to make room for new processes.
+		for (p = 2; p < NPROCS; p++)
+			(void) sys_wait(p);
+	}
+
+	sys_exit(0);
+}
+
+void
+run_child2(void)
+{
+	int input_counter = counter;
+
+	pid_t pid = sys_getpid();
+	if(pid % 2 == 0 && pid != 0){
+		sys_kill(pid+1);
+		counter++;		/* Note that all "processes" share an address
+				   space, so this change to 'counter' will be
+				   visible to all processes. */
+	}
+
+	app_printf("Process %d lives, counter %d!\n",
+	   sys_getpid(), input_counter);
+	sys_exit(input_counter);
 }
