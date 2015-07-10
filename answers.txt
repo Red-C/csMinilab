@@ -5,6 +5,37 @@ UCLA ID:
 -------------------------------------------------------------------------------
 
 Response to Exercise 1:
+	The sys_getpid() will return the correct value because
+	interrupt function save the pid into current process(i)'s 
+	register struct before calling schedule function. In the
+	future, when the process i restart, it first load the pid
+	from process i's register struct's eax, which is already
+	saved and should not be modified when all other processes
+	were running.
+
+Response to Exercise 2:
+	do_fork first find a state in array that have state of 
+	P_EMPTY, then copy the register struct and stack to the 
+	child's process. after that, the function changes state
+	of child's process from P_EMPTY to P_RUNNABLE.
+	when the process restart, it will first load pid from
+	process's eax register. The return value of child process
+	should be zero and parent's process should return child's
+	pid; therefore, the child's eax should set to zero.
+	do_fork(); copy_stack();
+
+Response to Exercise 3:
+	The process_t struct has a new element waitPID which holds
+	the pid of the process it is waiting for. after the current
+	process set to P_BLOCK, everytime schedule try to restart
+	current process will first check the status of the process
+	it is waiting. If that process is in P_ZOMBIE state, save
+	the exist status of the process and restart current process.
+	interrupt(); schedule();
+
+Response to Exercise 4:
+	Set the state of process to empty when process is exited.
+	interrupt(); schedule();
 
 
 
