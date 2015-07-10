@@ -57,14 +57,12 @@ run_child(void)
 {
 
 	pid_t pid = sys_getpid();
-	if(pid % 2 == 0 && pid != 0){
-		sys_kill(pid+1);
-		counter++;		/* Note that all "processes" share an address
-				   space, so this change to 'counter' will be
-				   visible to all processes. */
-	}
-	else {
-		sys_yeild();
+	if(pid % 2 == 0) {
+		int p;
+		for (p = 3; p < NPROCS; ) {
+			sys_kill(p);
+			p += 2;
+		}
 	}
 
 	int input_counter = counter;
