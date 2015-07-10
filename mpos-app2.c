@@ -69,9 +69,8 @@ run_child(void)
 		while(1)
 			sys_yield();
 	}
-	int input_counter = counter;
 
 	app_printf("Process %d lives, counter %d!\n",
-	   sys_getpid(), input_counter);
-	sys_exit(input_counter);
+	   sys_getpid(), counter);
+	sys_exit(counter);
 }
