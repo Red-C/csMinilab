@@ -63,6 +63,9 @@ run_child(void)
 				   space, so this change to 'counter' will be
 				   visible to all processes. */
 	}
+	else {
+		sys_yeild();
+	}
 
 	int input_counter = counter;
 	app_printf("Process %d lives, counter %d!\n",
