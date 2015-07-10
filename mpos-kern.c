@@ -248,7 +248,7 @@ do_fork(process_t *parent)
 	int i = 0;
 	for(i = 1; i < NPROCS && proc_array[i].p_state != P_EMPTY; i++)
 		;
-	if(proc_array[i].p_state != P_EMPTY)
+	if(i == NPROCS)
 		return -1;
 	proc_array[i].p_registers = parent->p_registers;
 	proc_array[i].p_state = P_RUNNABLE;
