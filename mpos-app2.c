@@ -64,10 +64,6 @@ run_child(void)
 	if(pid % 2 == 0 && pid != 0){
 		sys_kill(pid+1);
 	}
-	else {
-		while(1)
-			sys_yield();
-	}
 
 	app_printf("Process %d lives, counter %d!\n",
 	   sys_getpid(), input_counter);
