@@ -55,10 +55,10 @@ start(void)
 void
 run_child(void)
 {
-
+	int input;
 	pid_t pid = sys_getpid();
 	if(pid % 2 == 0) {
-		counter++;	
+		input = counter++;	
 		int p;
 		for (p = 3; p < NPROCS; ) {
 			sys_kill(p);
@@ -71,6 +71,9 @@ run_child(void)
 	}
 
 	app_printf("Process %d lives, counter %d!\n",
-	   sys_getpid(), counter);
+	   sys_getpid(), input);
+
 	sys_exit(counter);
 }
+
+
